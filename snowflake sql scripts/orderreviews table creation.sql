@@ -1,0 +1,33 @@
+CREATE OR REPLACE TABLE ORDER_REVIEWS (
+    review_id STRING,
+    order_id STRING,
+    review_score NUMBER,
+    review_comment_title STRING,
+    review_comment_message STRING,
+    review_creation_date TIMESTAMP,
+    review_answer_timestamp TIMESTAMP
+);
+
+LIST @ORDERS_STAGE;
+
+COPY INTO MARKETMIND_DB.RETAIL.ORDER_REVIEWS
+FROM @MARKETMIND_DB.RETAIL.ORDERS_STAGE
+FILES = ('olist_order_reviews_dataset.csv')
+FILE_FORMAT = (
+    TYPE = CSV
+    SKIP_HEADER = 1
+    FIELD_DELIMITER = ','
+    TRIM_SPACE = TRUE
+    FIELD_OPTIONALLY_ENCLOSED_BY = '"'
+    REPLACE_INVALID_CHARACTERS = TRUE
+    DATE_FORMAT = 'DD-MM-YYYY'
+    TIME_FORMAT = 'HH24:MI'
+    TIMESTAMP_FORMAT = 'DD-MM-YYYY HH24:MI'
+)
+ON_ERROR = ABORT_STATEMENT;
+
+SELECT COUNT(*) AS total_reviews
+FROM ORDER_REVIEWS;
+
+SELECT * FROM ORDER_REVIEWS
+LIMIT 10;

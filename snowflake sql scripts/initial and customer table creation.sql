@@ -1,0 +1,25 @@
+CREATE DATABASE MARKETMIND_DB;
+USE DATABASE MARKETMIND_DB;
+CREATE SCHEMA RETAIL;
+USE SCHEMA RETAIL;
+SHOW DATABASES;
+SHOW SCHEMAS IN DATABASE MARKETMIND_DB;
+
+CREATE OR REPLACE TABLE CUSTOMERS (
+    customer_id STRING,
+    customer_unique_id STRING,
+    customer_zip_code_prefix NUMBER,
+    customer_city STRING,
+    customer_state STRING
+);
+//Data Validation of Customer Table
+SHOW TABLES;
+SELECT COUNT(*) AS total_customers
+FROM CUSTOMERS;
+SELECT *
+FROM CUSTOMERS
+LIMIT 10;
+SELECT customer_id, COUNT(*) AS total
+FROM CUSTOMERS
+GROUP BY customer_id
+HAVING COUNT(*) > 1;
